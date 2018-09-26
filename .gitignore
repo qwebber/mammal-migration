@@ -1,4 +1,7 @@
 # R related files #
+output/
+
+
 ###################
 *.Rhistory
 *.Rdata
