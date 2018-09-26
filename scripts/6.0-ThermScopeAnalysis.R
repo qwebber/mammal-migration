@@ -12,38 +12,49 @@ TSMamm <- readRDS("output/compTSData.RDS")
 ## model selection
 ## global model
 TS1=pgls(mig~locomotion*TS+locomotion*logmass+habitat_sub+diet+abslat,data=TSMamm,lambda="ML")
-summary(TS1)
-##w/o logmass
-TS2=pgls(mig ~habitat_sub+diet+abslat,data=TSMamm,lambda="ML")
+##w/o logmass*locomotion
+TS2=pgls(mig ~ locomotion*TS + habitat_sub+diet+abslat,data=TSMamm,lambda="ML")
+##w/o TS*locomotion
+TS3=pgls(mig ~ locomotion*logmass + habitat_sub+diet+abslat,data=TSMamm,lambda="ML")
 ## w/o habitat
-TS3 = pgls(mig ~ logmass+ abslat+diet,data=TSMamm,lambda="ML")
+TS4 = pgls(mig ~ locomotion*TS+locomotion*logmass+diet+abslat,data=TSMamm,lambda="ML")
 ##w/o abslat
-TS4 = pgls(mig ~ logmass +diet+habitat_sub,data=TSMamm,lambda="ML")
+TS5 = pgls(mig ~ locomotion*TS+locomotion*logmass+habitat_sub+diet,data=TSMamm,lambda="ML")
 ## w/o diet
-TS5= pgls(mig ~ logmass +habitat_sub+abslat,data=TSMamm,lambda="ML")
+TS6= pgls(mig ~ locomotion*TS+locomotion*logmass+habitat_sub+abslat,data=TSMamm,lambda="ML")
 
-AIC(TS1,TS2,TS3,TS4,TS5)
+AIC(TS1,TS2,TS3,TS4,TS5,TS6)
 
 ##w/o habitat and diet
-TS6 = pgls(mig ~ logmass+abslat,data=TSMamm,lambda="ML")
+TS7 = pgls(mig ~ locomotion*TS+locomotion*logmass+abslat,data=TSMamm,lambda="ML")
 ##w/o habitat and abslat
-TS7 = pgls(mig ~ logmass +diet,data=TSMamm,lambda="ML")
-##w/o habitat and logmass
-TS8 = pgls(mig ~ diet +abslat,data=TSMamm,lambda="ML")
-## w/o diet and abslat
-TS9 =pgls(mig ~ logmass +habitat_sub,data=TSMamm,lambda="ML")
-##w/o diet and logmass
-TS10 =pgls(mig ~ abslat+habitat_sub ,data=TSMamm,lambda="ML")
-## w/o logmass and abslat
-TS11 =pgls(mig ~ diet+habitat_sub ,data=TSMamm,lambda="ML")
-TS12 =pgls(mig ~ habitat_sub ,data=TSMamm,lambda="ML")
-TS13 =pgls(mig ~ abslat ,data=TSMamm,lambda="ML")
-TS14 =pgls(mig ~ diet ,data=TSMamm,lambda="ML")
-TS15 =pgls(mig ~ logmass ,data=TSMamm,lambda="ML")
+TS8 = pgls(mig ~ locomotion*TS+locomotion*logmass+diet,data=TSMamm,lambda="ML")
+##w/o habitat and logmass*locomotion
+TS9 = pgls(mig ~ locomotion*TS+diet+abslat,data=TSMamm,lambda="ML")
+## w/o habitat and locomotion*TS
+TS10 =pgls(mig ~ locomotion*logmass+diet+abslat,data=TSMamm,lambda="ML")
+##w/o diet and abslat
+TS11 = pgls(mig ~ locomotion*TS+locomotion*logmass+habitat_sub,data=TSMamm,lambda="ML")
+##w/o diet and logmass*locomotion
+TS12 = pgls(mig ~ locomotion*TS+habitat_sub+abslat,data=TSMamm,lambda="ML")
+## w/o diet and locomotion*TS
+TS13 =pgls(mig ~ locomotion*logmass+habitat_sub+abslat,data=TSMamm,lambda="ML")
+##w/o abslat and logmass*locomotion
+TS14 = pgls(mig ~ locomotion*TS+habitat_sub+diet,data=TSMamm,lambda="ML")
+## w/o abslat and locomotion*TS
+TS15 =pgls(mig ~ locomotion*logmass+habitat_sub+diet,data=TSMamm,lambda="ML")
+
+AIC(TS1,TS2,TS3,TS4,TS5,TS6,TS7,TS8,TS9,TS10,TS11,TS12,TS13,TS14,TS15)
+
+TS16 =pgls(mig ~ locomotion*logmass ,data=TSMamm,lambda="ML")
+TS17 =pgls(mig ~ locomotion*TS ,data=TSMamm,lambda="ML")
+TS18 =pgls(mig ~ abslat ,data=TSMamm,lambda="ML")
+TS19 =pgls(mig ~ diet ,data=TSMamm,lambda="ML")
+TS20 =pgls(mig ~ habitat_sub ,data=TSMamm,lambda="ML")
 
 
-TSAIC <- data.table(AICc(TS1,TS2,TS3,TS4,TS5,TS6,TS7,TS8,TS9,TS10,TS11,TS12,TS13,TS14,TS15),
-                      round(Weights(AIC(TS1,TS2,TS3,TS4,TS5,TS6,TS7,TS8,TS9,TS10,TS11,TS12,TS13,TS14,TS15)),3))
+TSAIC <- data.table(AICc(TS1,TS2,TS3,TS4,TS5,TS6,TS7,TS8,TS9,TS10,TS11,TS12,TS13,TS14,TS15,TS16,TS17,TS18,TS19,TS20),
+                      round(Weights(AIC(TS1,TS2,TS3,TS4,TS5,TS6,TS7,TS8,TS9,TS10,TS11,TS12,TS13,TS14,TS15,TS16,TS17,TS18,TS19,TS20)),3))
 
 TSAIC$lambda <- rbind(TS1$param[2], TS2$param[2], TS3$param[2], TS4$param[2],
                         TS5$param[2], TS6$param[2], TS7$param[2], TS8$param[2],
