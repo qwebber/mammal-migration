@@ -7,6 +7,8 @@ lapply(libs, require, character.only = TRUE)
 
 Mamm <- fread("input/mammals.csv")
 
+chisq.test()
+
 TerrMamm <- readRDS("output/compTerrMammalData.RDS")
 
 ## model selection
@@ -65,3 +67,4 @@ terrAIC$deltaAIC <- terrAIC$AICc - as.numeric(terrAIC[1,2])
 
 write.csv(terrAIC, "output/terrAIC.csv")
 
+terrAIC <- read.csv("output/terrAIC.csv")

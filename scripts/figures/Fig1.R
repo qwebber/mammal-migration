@@ -2,8 +2,10 @@
 
 
 libs <- c('data.table', 'ggplot2','gridExtra',
-          'ade4', 'ape')
+          'ade4', 'ape', 'devtools' ,'ggtree')
 lapply(libs, require, character.only = TRUE)
+
+devtools::install_github('GuangchuangYu/ggtree')
 
 ## load all mammal data and 
 mammals=fread("input/mammals.csv",header=T)
@@ -23,12 +25,24 @@ big.ass.phylo <- read.tree(text = big.ass.tre)
 big.ass.phylo <- read.tree(text = big.ass.tre)
 
 
-library(ggtree)
+ggtree(big.ass.phylo, branch.length="none") +
+     geom_nodelab(aes(image=phylopic), geom="phylopic", alpha=.5, color='steelblue')
 
-ggtree(big.ass.phylo)
+ggtree(big.ass.phylo) %<+% info + xlim(NA, 6)
+p + geom_tiplab(aes(image= imageURL), geom="image", offset=2, align=T, size=.16, hjust=0) +
+  geom_tiplab(geom="label", offset=1, hjust=.5)
+
+#%>%
+  phylopic("9baeb207-5a37-4e43-9d9c-4cfb9038c0cc", 
+           color="darkgreen", alpha=.8, node=4) %>%
+  phylopic("2ff4c7f3-d403-407d-a430-e0e2bc54fab0", 
+           color="darkcyan", alpha=.8, node=2) %>%
+  phylopic("a63a929b-1b92-4e27-93c6-29f65184017e", 
+           color="steelblue", alpha=.8, node=3) 
+
 
 png("graphics/Fig1_phyloTree.png", width = 4000, height = 4000, res = 600, units = "px")
-plot.phylo(big.ass.phylo,cex=1,no.margin=T, label.offset=.5,x.lim=50,edge.width=2)
+plot.phylo(big.ass.phylo,type = 'phylogram',cex=1,no.margin=T, label.offset=.5,x.lim=50,edge.width=2)
 dev.off()
 
 

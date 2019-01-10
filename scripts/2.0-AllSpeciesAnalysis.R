@@ -3,7 +3,7 @@
 
 
 libs <- c('data.table', 'ape', 'caper',
-          'MASS', 'mvtonorm', 'ggplot2')
+          'MASS', 'mvtnorm', 'ggplot2')
 lapply(libs, require, character.only = TRUE)
 
 Mamm <- fread("input/mammals.csv")

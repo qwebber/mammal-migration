@@ -29,5 +29,6 @@ ggplot(TS, aes(TS, mig)) +
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
         panel.border = element_rect(colour = "black", fill=NA, size=1)) +
-  facet_wrap(~locomotion, scale = "free")
+  facet_wrap(~locomotion*habitat_category, scale = "free")
 dev.off()
+

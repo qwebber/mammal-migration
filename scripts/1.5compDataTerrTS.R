@@ -1,6 +1,8 @@
 
 
 
+
+
 libs <- c('data.table', 'ape', 'caper', 
           'MASS')
 lapply(libs, require, character.only = TRUE)
@@ -11,14 +13,13 @@ TS = fread("input/thermoregulatory_scope.csv",header = T)
 
 TS <- merge(mammals, TS, by = "species")
 
-TSfly <- TS[locomotion == "A"]
-
+TSterr <- TS[locomotion == "T"]
 
 ## load mammal tree
 mammaltree = read.nexus("input/mammaltree.rtf")
 
 phy <- mammaltree
-data <- TSfly
+data <- TSterr
 
 if(! inherits(phy, "phylo")) 
   stop("'", deparse(substitute(phy)), "' not of class 'phylo'")
@@ -101,6 +102,6 @@ if(warn.dropped){
 
 return(RET)
 
-saveRDS(RET, "output/compTSFlyData.RDS")
+saveRDS(RET, "output/compTSterrData.RDS")
 
 

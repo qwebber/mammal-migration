@@ -65,3 +65,4 @@ flyAIC$deltaAIC <- flyAIC$AICc - as.numeric(flyAIC[1,2])
 
 write.csv(flyAIC, "output/flyAIC.csv")
 
+flyAIC <- read.csv("output/flyAIC.csv")
