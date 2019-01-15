@@ -6,6 +6,8 @@ lapply(libs, require, character.only = TRUE)
 
 Mamm <- fread("input/mammals.csv")
 
+Mamm[, .N, by = .(mig, habitat_sub, locomotion)]
+
 FlyMamm <- readRDS("output/compFlyMammalData.RDS")
 
 ## model selection
