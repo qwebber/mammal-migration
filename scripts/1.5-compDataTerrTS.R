@@ -15,6 +15,10 @@ TS <- merge(mammals, TS, by = "species")
 
 TSterr <- TS[locomotion == "T"]
 
+TSterr[, .N, by = .(mig, habitat_sub)]
+
+TSterr <- TSterr[habitat_sub != "GTU" & habitat_sub != "TRS" & habitat_sub != "FWW"]
+
 ## load mammal tree
 mammaltree = read.nexus("input/mammaltree.rtf")
 
