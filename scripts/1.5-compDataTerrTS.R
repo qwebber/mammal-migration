@@ -19,6 +19,8 @@ TSterr[, .N, by = .(mig, habitat_sub)]
 
 TSterr <- TSterr[habitat_sub != "GTU" & habitat_sub != "TRS" & habitat_sub != "FWW"]
 
+TSterr[, .N, by = .(mig)]
+
 ## load mammal tree
 mammaltree = read.nexus("input/mammaltree.rtf")
 
