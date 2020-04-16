@@ -2,17 +2,11 @@
 
 
 libs <- c('data.table', 'ggplot2','gridExtra', 'tidyverse',
-          'ade4', 'ape', 'devtools' ,'ggtree', 'ggstance')
+          'ade4', 'ape', 'devtools' ,'ggtree', 'ggstance', 'BiocManager')
 lapply(libs, require, character.only = TRUE)
 
-devtools::install_github('GuangchuangYu/ggtree')
-
 ## try http if https is not available
-source("https://bioconductor.org/biocLite.R")
-## install release version
-biocLite("ggtree")
-## install latest version
-biocLite("GuangchuangYu/ggtree")
+BiocManager::install("ggtree")
 
 ## load all mammal data and 
 mammals=fread("input/mammals.csv",header=T)
