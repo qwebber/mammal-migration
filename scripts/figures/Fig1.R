@@ -62,7 +62,7 @@ p <- p + #geom_tippoint(aes(color = host), size = 1) +
   ggtitle("A)") +
   geom_tiplab(aes(color = host)) + 
   scale_y_continuous(expand = c(0.02,0.02)) +
-  xlim_tree(16) +
+  xlim_tree(17) +
   theme(plot.margin = margin(0.25, 0.25, 1.2, 0, "cm"),
         legend.position= 'none') + 
   ## add numbers for each order
