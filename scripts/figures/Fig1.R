@@ -5,7 +5,7 @@ libs <- c('data.table', 'ggplot2','gridExtra', 'tidyverse',
           'ade4', 'ape', 'devtools' ,'ggtree', 'ggstance')
 lapply(libs, require, character.only = TRUE)
 
-#devtools::install_github('GuangchuangYu/ggtree')
+devtools::install_github('GuangchuangYu/ggtree')
 
 ## try http if https is not available
 source("https://bioconductor.org/biocLite.R")
