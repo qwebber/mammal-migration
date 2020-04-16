@@ -43,8 +43,6 @@ big.ass.phylo <- read.tree(text = big.ass.tre)
 png("graphics/Fig1_phyloTree2.png", width = 8000, height = 4000, res = 600, units = "px")
 p <- ggtree(big.ass.phylo) 
 
-#p <- add_colorbar(p, cols, font.size = 3)
-
 tip <- get.tree(big.ass.phylo)$tip.label
 
 mammal.df <- data.table(taxa=factor(b4$Order), 
@@ -66,8 +64,38 @@ p <- p + #geom_tippoint(aes(color = host), size = 1) +
   scale_y_continuous(expand = c(0.02,0.02)) +
   xlim_tree(16) +
   theme(plot.margin = margin(0.25, 0.25, 1.2, 0, "cm"),
-        legend.position= 'none')
-p
+        legend.position= 'none') + 
+  ## add numbers for each order
+  annotate("text", size = 3.5, x = 16, y = 29, label = "(37/43)", color = "#D55E00") + #Cetacea
+  annotate("text", size = 3.5, x = 16, y = 28, label = "(38/68)", color = "#D55E00") + #Artiodactyla
+  annotate("text", size = 3.5, x = 16, y = 27, label = "(4/7)", color = "#D55E00") + #Perisso
+  annotate("text", size = 3.5, x = 16, y = 26, label = "(0/2)", color = "#0072B2") + #Pholidota
+  annotate("text", size = 3.5, x = 16, y = 25, label = "(37/85)", color = "#D55E00") + #Carnivora
+  annotate("text", size = 3.5, x = 16, y = 24, label = "(49/98)", color = "#D55E00") + #Chiroptera
+  annotate("text", size = 3.5, x = 16, y = 23, label = "(0/39)", color = "#0072B2") + #Soricomorpha
+  annotate("text", size = 3.5, x = 16, y = 22, label = "(0/6)", color = "#0072B2") + #Erinaceomorpha
+  #annotate("text", size = 3.5, x = 16, y = 21, label = "(x/y)", color = "#D55E00") + #Dermoptera
+  annotate("text", size = 3.5, x = 16, y = 20, label = "(1/10)", color = "#D55E00") + #Primates
+  annotate("text", size = 3.5, x = 16, y = 19, label = "(0/3)", color = "#0072B2") + #Scandentia
+  annotate("text", size = 3.5, x = 16, y = 18, label = "(1/10)", color = "#D55E00") + #Lagomorpha
+  annotate("text", size = 3.5, x = 16, y = 17, label = "(0/246)", color = "#0072B2") + #Rodentia
+  annotate("text", size = 3.5, x = 16, y = 16, label = "(0/2)", color = "#0072B2") + #Pilosa
+  annotate("text", size = 3.5, x = 16, y = 15, label = "(0/8)", color = "#0072B2") + #Cingulata
+  annotate("text", size = 3.5, x = 16, y = 14, label = "(0/2)", color = "#0072B2") + #Hyracoidea
+  annotate("text", size = 3.5, x = 16, y = 13, label = "(3/3)", color = "#D55E00") + #Sirenia
+  annotate("text", size = 3.5, x = 16, y = 12, label = "(0/2)", color = "#D55E00") + #Proboscidea
+  annotate("text", size = 3.5, x = 16, y = 11, label = "(0/7)", color = "#0072B2") + #Macroscelidea
+  annotate("text", size = 3.5, x = 16, y = 10, label = "(0/11)", color = "#0072B2") + #Afrosoricida
+  annotate("text", size = 3.5, x = 16, y = 9, label = "(0/1)", color = "#0072B2") + #Tubulidentata
+  annotate("text", size = 3.5, x = 16, y = 8, label = "(0/1)", color = "#0072B2") + #Noto
+  annotate("text", size = 3.5, x = 16, y = 7, label = "(0/19)", color = "#0072B2") + #Dasyuromorphia
+  annotate("text", size = 3.5, x = 16, y = 6, label = "(0/1)", color = "#0072B2") + #Microbiotheria
+  annotate("text", size = 3.5, x = 16, y = 5, label = "(0/27)", color = "#0072B2") + #Diprotodontia
+  annotate("text", size = 3.5, x = 16, y = 4, label = "(0/8)", color = "#0072B2") + #Peramelemorphia
+  #annotate("text", size = 3.5, x = 16, y = 3, label = "(x/y)", color = "#0072B2") + #Paucituber
+  annotate("text", size = 3.5, x = 16, y = 2, label = "(0/12)", color = "#0072B2") + #Didelophimorphia
+  annotate("text", size = 3.5, x = 16, y = 1, label = "(0/1)", color = "#0072B2")  #Montremata
+  p
 
 
 d3 <- data.frame(id = b4$Order, prop = b4$propMig, mig = 1, total = b4$total)
@@ -163,348 +191,3 @@ p3 <- ggplot(TS5, aes(label, thermScope)) +
 grid.arrange(p,p2,p3, nrow = 1, ncol = 3)
 
 dev.off()
-
-
-
-#png("graphics/Fig1_phyloTree.png", width = 4000, height = 4000, res = 600, units = "px")
-plot.phylo(big.ass.phylo,type = 'phylogram',cex=1,no.margin=T, label.offset=.5,x.lim=50,edge.width=2)
-#dev.off()
-
-
-  
-  ## get the path of files used in the examples that are distributed with 
-  beast_file <-
-    system.file("examples/MCC_FluA_H3.tree", 
-                package=  "ggtree")
-  rst_file <- system.file("examples/rst", 
-                package= "ggtree")
-  mlc_file <-
-    system.file("examples/mlc", 
-                package=  "ggtree")
-  ## parsing BEAST & CODEMML trees
-  ## and combine their phylogenetic inferences
-  beast_tree <- read.beast(beast_file)
-  codeml_tree <-read.codeml(rst_file, mlc_file)
-  merged_tree <-merge_tree(beast_tree, codeml_tree)
-  ## selected specific sites for displaying (with mask_site = FALSE).
-  ## if mask_site = TRUE, only those not selected will be displayed.
-  site_file <-
-    system.file("examples/sites.txt", 
-                package= "ggtree")
-  site <- read.table(site_file)[,1]
-  tree <- mask(merged_tree, "joint_AA_subs", site, 
-    mask_site = FALSE)
-  ## scale the color of the tree by dN_vs_dS.
-  ## scale the time tree by specifying mrsd (most recent sampling date)
-  ## round all the numberical evidence with 2 
-  ## digits by specifying ndigits = 2.
-  ## add colorbar by add_colorbar function.
-  cols <- scale_color(merged_tree,   "dN_vs_dS", 
-    low= "#0072B2", 
-    high=  "#D55E00", interval= seq(0, 1.5, length.out=100))
-  p <- ggtree(merged_tree, 
-    size=.8, mrsd="2013-01-01", ndigits = 2 , color=cols)
-  p <- add_colorbar(p, cols, 
-    font.size = 3)
-  ## add annotation of clade posterior and colored in darkgreen
-  p <- p + geom_text(
-    aes(label =
-        posterior),
-    color =
-      "darkgreen",
-    vjust = -0.1
-    ,
-    hjust = -.03
-    ,
-    size =
-      1.8
-  )
-  ## add annotation of
-  #amino acid substitution inferred by joint probabilities
-  p <-
-    p +
-    geom_text(
-    aes(x= branch, 
-      label = joint_AA_subs),  vjust=-.03, size=1.8)
-  ## get the tip labels
-  tip <- get.tree(merged_tree)$tip.label
-  ## create a new data.frame containing information of host 
-  species.host <- rep("Human", length(tip))
-  
-  host[grep("Swine", tip)] <- "Swine"
-  host.df <-
-    data.frame(
-    taxa=tip, 
-    host=factor(host))
-  ## use %<+% operator to attach the information to the tree view
-  p <- p %<+%host.df
-  ## add circles in tips and tip labels align to the right hand side.
-  ## after the attachment via %<+% operator,
-  ## we can use 'host' information to color circles and labels of tips.
-  p <-p +
-    geom_tippoint(aes
-    (color=
-        host), 
-    size = 2) +
-    geom_tiplab(aes(color=host), 
-    align=TRUE, 
-    size=3, 
-    linesize=0.3)
-  ## rescale the color to blue (for human) and red (for swine)
-  p <- p +
-    scale_color_manual(
-    values = c("#377EB8", "#E41A1C"), 
-    guide='none')
-  ## setting the coordinate system
-  p <
-    -
-    p +
-    theme_tree2() +
-    scale_y_continuous
-  (
-    expand=
-      c
-    (
-      0
-      , 
-      0.6
-    )) +
-    xlab
-  (
-    "Time"
-  )
-  ## 
- # setting size of axis text and title.
-  p <
-    -
-    p +
-    theme
-  (
-    axis.text.x=
-      element_text
-    (
-      size=
-        10
-    ), 
-    axis.title.x =
-      element_text
-    (
-      size=
-        12
-    ))
-  ## reading genotype file
-  genotype_file <- system.file(
-    "examples/Genotype.txt", 
-    package="ggtree"
-  )
-  genotype <- read.table(genotype_file, sep="\t", 
-    stringsAsFactor=
-      F)
-  colnames
-  (genotype) <
-    -
-    sub
-  (
-    "
-    \
-    \
-    ."
-    , 
-    ""
-    , 
-    colnames
-    (genotype))
-  genotype[genotype ==
-             "trig"
-           ] <
-    -
-    "TRIG"
-  genotype[genotype ==
-             "pdm"
-           ] <
-    -
-    "Pdm/09"
-  ## visualize genotype heatmap with the tree view
-  p <- gheatmap(p, genotype, 
-    width=.4, 
-    offset=7, 
-    colnames=
-      F) %>%
-    scale_x_ggtree
-  p <- p +
-    scale_fill_brewer(
-    palette="Set2"
-  )
-  p <- p+theme(legend.text=
-      element_text(size = 8), 
-    legend.key.height=
-      unit(.5, 
-      "cm"),
-    legend.key.width=
-      unit(.4, 
-      "cm"),
-    legend.position=
-      c(.13, y=.945))
-  ## A compact version of the above figure without tip labels and legend.
-  ##
-  ## instead of using %<+% to attach additional information, 
-  ## we can use groupOTU to classify OTUs, it works with tree/plot objects.
-  tree2 <
-    -
-    groupOTU
-  (merged_tree, ti
-    p[
-      grep
-      (
-        "Swine"
-        , tip)], 
-    "host"
-  )
-  vp1 <
-    -
-    ggtree
-  (tree2, 
-    size=
-      .
-    5
-    , 
-    mrsd=
-      "2013
-    -
-    01
-    -
-    01"
-    , 
-    ndigits =
-      2
-    , 
-    color=
-      cols) +
-    geom_tippoint
-  (
-    aes
-    (
-      color=
-        host), 
-    size=
-      1
-  )
-  vp1 <
-    -
-    gheatmap
-  (vp1, genotype, 
-    width=
-      .
-    3
-    , 
-    offset=
-      .
-    8
-    , 
-    colnames=
-      F) +
-    theme
-  (
-    legend.position=
-      "none"
-  )
-  vp1 <
-    -
-    vp1+
-    geom_aline
-  (
-    aes
-    (
-      x=
-        2014
-      , 
-      xend=
-        x
-      +.1
-      , 
-      yend=
-        y, 
-      color=
-        host),
-    linetype=
-      "dotted"
-    , 
-    size=
-      .
-    2
-  ) +
-    scale_color_manual
-  (
-    values=
-      c
-    (
-      "#377EB8"
-      , 
-      "#E41A1C"
-    )) +
-    scale_fill_brewer
-  (
-    palette=
-      "Set2"
-  )
-  ## A fan version
-  vp2 <
-    -
-    open_tree
-  (vp1, 
-    180
-  )
-  ## e
-  mbed compact versions above the main plot using subview function 
-  p <
-    -
-    subview
-  (p, vp1, 
-    x=
-      1996
-    , 
-    y=
-      55
-    , 
-    width=
-      .
-    3
-    , 
-    height=
-      .
-    15
-  )
-  p <
-    -
-    subview
-  (p, vp2, 
-    x=
-      1996
-    , 
-    y=
-      30
-    , 
-    width=
-      .
-    3
-    , 
-    height=
-      .
-    15
-  )
-  ## In R use dev.new() to allocate a new window with enough space to view the
-  figure
-  ## If using RStudio, use windows() for Windows or quartz() for Mac OS X 
-  platform
-  dev.new
-  (
-    width=
-      12
-    , 
-    height=
-      12
-  )
-  print
-  (p)
-
-
