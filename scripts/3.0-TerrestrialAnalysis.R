@@ -7,8 +7,6 @@ lapply(libs, require, character.only = TRUE)
 
 Mamm <- fread("input/mammals.csv")
 
-chisq.test()
-
 TerrMamm <- readRDS("output/compTerrMammalData.RDS")
 
 ## model selection
