@@ -13,7 +13,7 @@ mammals$locomotion[mammals$locomotion == "A"] <- 'Flying'
 mammals$locomotion[mammals$locomotion == "T"] <- 'Running'  
 mammals$locomotion[mammals$locomotion == "W"] <- 'Swimming'  
 
-
+mammals$locomotion2 = factor(mammals$locomotion, levels=c('Running','Flying','Swimming'))
 
 png("graphics/Fig2_migMassLatitude.png", width = 6000, height = 4000, res = 600, units = "px")
 aa <- ggplot(mammals, aes(logmass, mig)) +
@@ -29,8 +29,9 @@ aa <- ggplot(mammals, aes(logmass, mig)) +
         strip.text = element_text(size=12),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
+        strip.background = element_rect(colour="black", size = 1, fill = "white"),
         panel.border = element_rect(colour = "black", fill=NA, size=1)) +
-  facet_wrap(~locomotion, scale = "free")
+  facet_wrap(~locomotion2, scale = "free")
 
 bb <- ggplot(mammals, aes(abslat, mig)) +
   geom_jitter(alpha = 0.5, height = 0.05) +
@@ -45,8 +46,9 @@ bb <- ggplot(mammals, aes(abslat, mig)) +
         strip.text = element_text(size=12),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
+        strip.background = element_rect(colour="black", size = 1, fill = "white"),
         panel.border = element_rect(colour = "black", fill=NA, size=1)) +
-  facet_wrap(~locomotion, scale = "free")
+  facet_wrap(~locomotion2, scale = "free")
 grid.arrange(aa,bb, nrow = 2)
 dev.off()
 
