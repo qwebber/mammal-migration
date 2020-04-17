@@ -40,7 +40,7 @@ big.ass.tre[3] <- "((Sirenia,Hyracoidea),Proboscidea))),(((((Diprotodontia,Micro
 big.ass.tre[4] <- "Paucituberculata),Didelphimorphia)),Monotremata);"
 big.ass.phylo <- read.tree(text = big.ass.tre)
 
-png("graphics/Fig1_phyloTree2.png", width = 8000, height = 4000, res = 600, units = "px")
+png("graphics/Fig1_phyloTree.png", width = 8000, height = 4000, res = 600, units = "px")
 p <- ggtree(big.ass.phylo) 
 
 tip <- get.tree(big.ass.phylo)$tip.label
@@ -83,7 +83,7 @@ p <- p + #geom_tippoint(aes(color = host), size = 1) +
   annotate("text", size = 3.5, x = 16, y = 15, label = "(0/8)", color = "#0072B2") + #Cingulata
   annotate("text", size = 3.5, x = 16, y = 14, label = "(0/2)", color = "#0072B2") + #Hyracoidea
   annotate("text", size = 3.5, x = 16, y = 13, label = "(3/3)", color = "#D55E00") + #Sirenia
-  annotate("text", size = 3.5, x = 16, y = 12, label = "(0/2)", color = "#D55E00") + #Proboscidea
+  annotate("text", size = 3.5, x = 16, y = 12, label = "(2/2)", color = "#D55E00") + #Proboscidea
   annotate("text", size = 3.5, x = 16, y = 11, label = "(0/7)", color = "#0072B2") + #Macroscelidea
   annotate("text", size = 3.5, x = 16, y = 10, label = "(0/11)", color = "#0072B2") + #Afrosoricida
   annotate("text", size = 3.5, x = 16, y = 9, label = "(0/1)", color = "#0072B2") + #Tubulidentata
