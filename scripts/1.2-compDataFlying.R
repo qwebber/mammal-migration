@@ -1,9 +1,6 @@
 
 
 
-
-
-
 libs <- c('data.table', 'ape', 'caper', 
           'MASS')
 lapply(libs, require, character.only = TRUE)
@@ -95,8 +92,6 @@ if(na.omit){
 if(warn.dropped){
   if(any(sapply(RET$dropped, length) > 0)) warning('Data dropped in compiling comparative data object')
 }
-
-return(RET)
 
 saveRDS(RET, "output/compFlyMammalData.RDS")
 
