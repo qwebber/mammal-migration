@@ -8,9 +8,17 @@ Mamm <- fread("input/mammals.csv")
 
 SwimMamm <- readRDS("output/compSwimMammalData.RDS")
 
+
+mammals.water <- Mamm[locomotion == "W"]
+
 ## model selection
 ## global model
 swim1=pgls(mig~logmass+habitat_sub+diet+abslat,data=SwimMamm,lambda="ML")
+swim1_glm <- glm(mig ~ logmass + diet + abslat + habitat_sub, 
+                data=mammals.water, 
+                family = "binomial")
+car::vif(swim1_glm)
+
 ##w/o logmass
 swim2=pgls(mig ~habitat_sub+diet+abslat,data=SwimMamm,lambda="ML")
 ## w/o habitat
