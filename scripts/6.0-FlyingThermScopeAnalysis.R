@@ -6,14 +6,22 @@ libs <- c('data.table', 'ape', 'caper',
 lapply(libs, require, character.only = TRUE)
 
 Mamm <- fread("input/mammals.csv")
+TS = fread("input/thermoregulatory_scope.csv",header = T)
+TS <- merge(Mamm, TS, by = "species")
+
 
 TSFly <- readRDS("output/compTSFlyData.RDS")
 TSFlyDiet <- readRDS("output/compTSFlyDataDiet.RDS")
 TSFlyHab <- readRDS("output/compTSFlyDataHab.RDS")
 
 
+TSfly <- TS[locomotion == "A" & diet == "Insectivore" | diet == "Frugivore"]
 ### global model
 TS1=pgls(mig~TS + logmass + diet + abslat + habitat_sub,data=TSFly,lambda="ML")
+TS1glm <- glm(mig ~ TS + logmass + diet + abslat + habitat_sub, 
+              data=TSfly, 
+              family = "binomial")
+car::vif(TS1glm)
 
 TS2 = pgls(mig ~ TS*diet + logmass + abslat,data=TSFlyDiet,lambda="ML")
 
@@ -28,6 +36,9 @@ TS6 = pgls(mig ~ TS*habitat_sub + logmass,data=TSFlyHab,lambda="ML")
 TS7 = pgls(mig ~ TS*habitat_sub + latitude,data=TSFlyHab,lambda="ML")
 
 TS8 = pgls(mig ~ TS*diet,data=TSFlyDiet,lambda="ML")
+TS8glm <- glm(mig ~ TS*diet, 
+              data=TSfly, family = "binomial")
+car::vif(TS8glm)
 
 TS9 = pgls(mig ~ TS*habitat_sub,data=TSFlyHab,lambda="ML")
 
