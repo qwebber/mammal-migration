@@ -6,13 +6,27 @@ libs <- c('data.table', 'ape', 'caper',
 lapply(libs, require, character.only = TRUE)
 
 Mamm <- fread("input/mammals.csv")
+TS = fread("input/thermoregulatory_scope.csv",header = T)
+TS <- merge(Mamm, TS, by = "species")
 
 TSTerr <- readRDS("output/compTSterrData.RDS")
 
+
+
+TSterr <- TS[locomotion == "T" & habitat_sub != "GTU" & habitat_sub != "TRS" & habitat_sub != "FWW"]
 ## model selection
 ## global model
 ### global model
 TS1=pgls(mig~TS + logmass + diet + abslat + habitat_sub,data=TSTerr,lambda="ML")
+TS1glm <- glm(mig ~ TS + logmass + diet + abslat + habitat_sub, 
+              data=TSterr, 
+              family = "binomial")
+car::vif(TS1glm) ## remove habitat
+
+TS1.1glm <- glm(mig ~ TS + logmass + diet + abslat, 
+              data=TSterr, 
+              family = "binomial")
+car::vif(TS1.1glm) ## remove habitat
 
 TS2 = pgls(mig ~ TS*diet + logmass + abslat,data=TSTerr,lambda="ML")
 
