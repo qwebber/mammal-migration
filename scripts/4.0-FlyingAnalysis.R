@@ -10,9 +10,16 @@ Mamm[, .N, by = .(mig, habitat_sub, locomotion)]
 
 FlyMamm <- readRDS("output/compFlyMammalData.RDS")
 
+
+FlyMamm2 <- Mamm[locomotion == "A" & diet == "Insectivore" | diet == "Frugivore"]
+
 ## model selection
 ## global model
 fly1=pgls(mig~logmass+habitat_sub+diet+abslat,data=FlyMamm,lambda="ML")
+fly1_glm <- glm(mig ~ logmass + diet + abslat + habitat_sub, 
+              data=FlyMamm2, 
+              family = "binomial")
+car::vif(fly1_glm)
 ##w/o logmass
 fly2=pgls(mig ~habitat_sub+diet+abslat,data=FlyMamm,lambda="ML")
 ## w/o habitat
