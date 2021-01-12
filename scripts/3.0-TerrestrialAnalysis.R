@@ -9,9 +9,16 @@ Mamm <- fread("input/mammals.csv")
 
 TerrMamm <- readRDS("output/compTerrMammalData.RDS")
 
+TSterr <- Mamm[locomotion == "T" & habitat_sub != "GTU" & habitat_sub != "TRS" & habitat_sub != "FWW"]
+
 ## model selection
 ## global model
 terr1=pgls(mig~logmass+habitat_sub+diet+abslat,data=TerrMamm,lambda="ML")
+terr1_glm <- glm(mig ~ logmass + diet + abslat + habitat_sub, 
+              data=TSterr, 
+              family = "binomial")
+car::vif(terr1_glm) ## remove habitat
+
 ##w/o logmass
 terr2=pgls(mig ~habitat_sub+diet+abslat,data=TerrMamm,lambda="ML")
 ## w/o habitat
