@@ -1,12 +1,12 @@
-## number of migratory species per order: 
 
-
-libs <- c('data.table', 'ggplot2','gridExtra', 'tidyverse',
-          'ade4', 'ape', 'devtools' ,'ggtree', 'ggstance', 'BiocManager')
+libs <- c('data.table', 'ggplot2','gridExtra', 'tidyverse', 'treeio',
+          'ade4', 'ape', 'devtools' ,'ggtree', 'ggstance') #'BiocManager')
 lapply(libs, require, character.only = TRUE)
 
 ## try http if https is not available
-BiocManager::install("ggtree")
+#BiocManager::install("ggtree")
+
+#devtools::install_github("YuLab-SMU/ggtree")
 
 ## load all mammal data and 
 mammals=fread("input/mammals.csv",header=T)
@@ -40,7 +40,7 @@ big.ass.tre[3] <- "((Sirenia,Hyracoidea),Proboscidea))),(((((Diprotodontia,Micro
 big.ass.tre[4] <- "Paucituberculata),Didelphimorphia)),Monotremata);"
 big.ass.phylo <- read.tree(text = big.ass.tre)
 
-png("graphics/Fig1_phyloTree.png", width = 8000, height = 4000, res = 600, units = "px")
+png("graphics/Fig1_phyloTree.png", width = 9000, height = 4500, res = 600, units = "px")
 p <- ggtree(big.ass.phylo) 
 
 tip <- get.tree(big.ass.phylo)$tip.label
@@ -56,45 +56,45 @@ p <- p %<+%mammal.df
 ## after the attachment via %<+% operator,
 ## we can use 'host' information to color circles and labels of tips.
 p <- p + #geom_tippoint(aes(color = host), size = 1) +
-  scale_color_manual(values = c("#0072B2", "#D55E00", "darkgrey"),
+  scale_color_manual(values = c("darkgrey", "black", "lightgrey"),
                      labels=c("Migratory", "Non-migratory", "No data")) +
-  scale_fill_manual(values = c("#0072B2", "#D55E00", "darkgrey")) +
+  scale_fill_manual(values = c("darkgrey", "black", "lightgrey")) +
   ggtitle("A)") +
   geom_tiplab(aes(color = host)) + 
-  scale_y_continuous(expand = c(0.02,0.02)) +
+  scale_y_continuous(expand = c(0.06,0.06)) +
   xlim_tree(17) +
-  theme(plot.margin = margin(0.25, 0.25, 1.2, 0, "cm"),
+  theme(plot.margin = margin(0.25, 0.5, 1.2, 0, "cm"),
         legend.position= 'none') + 
   ## add numbers for each order
-  annotate("text", size = 3.5, x = 16, y = 29, label = "(37/43)", color = "#D55E00") + #Cetacea
-  annotate("text", size = 3.5, x = 16, y = 28, label = "(38/68)", color = "#D55E00") + #Artiodactyla
-  annotate("text", size = 3.5, x = 16, y = 27, label = "(4/7)", color = "#D55E00") + #Perisso
-  annotate("text", size = 3.5, x = 16, y = 26, label = "(0/2)", color = "#0072B2") + #Pholidota
-  annotate("text", size = 3.5, x = 16, y = 25, label = "(37/85)", color = "#D55E00") + #Carnivora
-  annotate("text", size = 3.5, x = 16, y = 24, label = "(49/98)", color = "#D55E00") + #Chiroptera
-  annotate("text", size = 3.5, x = 16, y = 23, label = "(0/39)", color = "#0072B2") + #Soricomorpha
-  annotate("text", size = 3.5, x = 16, y = 22, label = "(0/6)", color = "#0072B2") + #Erinaceomorpha
-  #annotate("text", size = 3.5, x = 16, y = 21, label = "(x/y)", color = "#D55E00") + #Dermoptera
-  annotate("text", size = 3.5, x = 16, y = 20, label = "(1/10)", color = "#D55E00") + #Primates
-  annotate("text", size = 3.5, x = 16, y = 19, label = "(0/3)", color = "#0072B2") + #Scandentia
-  annotate("text", size = 3.5, x = 16, y = 18, label = "(1/10)", color = "#D55E00") + #Lagomorpha
-  annotate("text", size = 3.5, x = 16, y = 17, label = "(0/246)", color = "#0072B2") + #Rodentia
-  annotate("text", size = 3.5, x = 16, y = 16, label = "(0/2)", color = "#0072B2") + #Pilosa
-  annotate("text", size = 3.5, x = 16, y = 15, label = "(0/8)", color = "#0072B2") + #Cingulata
-  annotate("text", size = 3.5, x = 16, y = 14, label = "(0/2)", color = "#0072B2") + #Hyracoidea
-  annotate("text", size = 3.5, x = 16, y = 13, label = "(3/3)", color = "#D55E00") + #Sirenia
-  annotate("text", size = 3.5, x = 16, y = 12, label = "(2/2)", color = "#D55E00") + #Proboscidea
-  annotate("text", size = 3.5, x = 16, y = 11, label = "(0/7)", color = "#0072B2") + #Macroscelidea
-  annotate("text", size = 3.5, x = 16, y = 10, label = "(0/11)", color = "#0072B2") + #Afrosoricida
-  annotate("text", size = 3.5, x = 16, y = 9, label = "(0/1)", color = "#0072B2") + #Tubulidentata
-  annotate("text", size = 3.5, x = 16, y = 8, label = "(0/1)", color = "#0072B2") + #Noto
-  annotate("text", size = 3.5, x = 16, y = 7, label = "(0/19)", color = "#0072B2") + #Dasyuromorphia
-  annotate("text", size = 3.5, x = 16, y = 6, label = "(0/1)", color = "#0072B2") + #Microbiotheria
-  annotate("text", size = 3.5, x = 16, y = 5, label = "(0/27)", color = "#0072B2") + #Diprotodontia
-  annotate("text", size = 3.5, x = 16, y = 4, label = "(0/8)", color = "#0072B2") + #Peramelemorphia
-  #annotate("text", size = 3.5, x = 16, y = 3, label = "(x/y)", color = "#0072B2") + #Paucituber
-  annotate("text", size = 3.5, x = 16, y = 2, label = "(0/12)", color = "#0072B2") + #Didelophimorphia
-  annotate("text", size = 3.5, x = 16, y = 1, label = "(0/1)", color = "#0072B2")  #Montremata
+  annotate("text", size = 3.5, x = 16, y = 29, label = "(37/43)", color = "black") + #Cetacea
+  annotate("text", size = 3.5, x = 16, y = 28, label = "(38/68)", color = "black") + #Artiodactyla
+  annotate("text", size = 3.5, x = 16, y = 27, label = "(4/7)", color = "black") + #Perisso
+  annotate("text", size = 3.5, x = 16, y = 26, label = "(0/2)", color = "darkgrey") + #Pholidota
+  annotate("text", size = 3.5, x = 16, y = 25, label = "(37/85)", color = "black") + #Carnivora
+  annotate("text", size = 3.5, x = 16, y = 24, label = "(49/98)", color = "black") + #Chiroptera
+  annotate("text", size = 3.5, x = 16, y = 23, label = "(0/39)", color = "darkgrey") + #Soricomorpha
+  annotate("text", size = 3.5, x = 16, y = 22, label = "(0/6)", color = "darkgrey") + #Erinaceomorpha
+  #annotate("text", size = 3.5, x = 16, y = 21, label = "(x/y)", color = "black") + #Dermoptera
+  annotate("text", size = 3.5, x = 16, y = 20, label = "(1/10)", color = "black") + #Primates
+  annotate("text", size = 3.5, x = 16, y = 19, label = "(0/3)", color = "darkgrey") + #Scandentia
+  annotate("text", size = 3.5, x = 16, y = 18, label = "(1/10)", color = "black") + #Lagomorpha
+  annotate("text", size = 3.5, x = 16, y = 17, label = "(0/246)", color = "darkgrey") + #Rodentia
+  annotate("text", size = 3.5, x = 16, y = 16, label = "(0/2)", color = "darkgrey") + #Pilosa
+  annotate("text", size = 3.5, x = 16, y = 15, label = "(0/8)", color = "darkgrey") + #Cingulata
+  annotate("text", size = 3.5, x = 16, y = 14, label = "(0/2)", color = "darkgrey") + #Hyracoidea
+  annotate("text", size = 3.5, x = 16, y = 13, label = "(3/3)", color = "black") + #Sirenia
+  annotate("text", size = 3.5, x = 16, y = 12, label = "(2/2)", color = "black") + #Proboscidea
+  annotate("text", size = 3.5, x = 16, y = 11, label = "(0/7)", color = "darkgrey") + #Macroscelidea
+  annotate("text", size = 3.5, x = 16, y = 10, label = "(0/11)", color = "darkgrey") + #Afrosoricida
+  annotate("text", size = 3.5, x = 16, y = 9, label = "(0/1)", color = "darkgrey") + #Tubulidentata
+  annotate("text", size = 3.5, x = 16, y = 8, label = "(0/1)", color = "darkgrey") + #Noto
+  annotate("text", size = 3.5, x = 16, y = 7, label = "(0/19)", color = "darkgrey") + #Dasyuromorphia
+  annotate("text", size = 3.5, x = 16, y = 6, label = "(0/1)", color = "darkgrey") + #Microbiotheria
+  annotate("text", size = 3.5, x = 16, y = 5, label = "(0/27)", color = "darkgrey") + #Diprotodontia
+  annotate("text", size = 3.5, x = 16, y = 4, label = "(0/8)", color = "darkgrey") + #Peramelemorphia
+  #annotate("text", size = 3.5, x = 16, y = 3, label = "(x/y)", color = "darkgrey") + #Paucituber
+  annotate("text", size = 3.5, x = 16, y = 2, label = "(0/12)", color = "darkgrey") + #Didelophimorphia
+  annotate("text", size = 3.5, x = 16, y = 1, label = "(0/1)", color = "darkgrey")  #Montremata
   p
 
 
@@ -122,17 +122,18 @@ temp2 <- data.table(order = c("Dermoptera", "Paucituberculata"),
 temp3 <- rbind(temp, temp2)
 colnames(temp3) <- c("taxa", "count_order", "N")
 
+## percentage 
 
 p2 <- ggplot(d5, aes(taxa, prop, fill = factor(mig))) +
-  geom_bar(stat = "identity", position = "fill", alpha = 0.5) +
-  scale_fill_manual(values = c("#0072B2", "#D55E00", "darkgrey")) +
+  geom_bar(stat = "identity", position = "fill") +
+  scale_fill_manual(values = c("darkgrey", "black", "lightgrey")) +
   coord_flip() +
   xlab("") +
   ggtitle("B)") +
-  ylab('Proportion of migrants') +
-  scale_x_continuous(expand = c(0.01,0.01)) +
-  #geom_text(data = temp3, aes(taxa, count_order, label = N, fill = NULL), 
-           # nudge_y = 0.02) +
+  ylab('Percentage of migrants') +
+  scale_y_continuous(breaks = c(0, 0.25, 0.50, 0.75, 1.00), 
+                     labels = c(0, 25, 50, 75, 100)) +
+  #xlim(1,29) +
   theme(legend.position = 'none',
         plot.margin = margin(0.25, 0.25, 0.25, 0, "cm"),
         axis.text.x=element_text(size=12, color = "black"),
@@ -142,6 +143,7 @@ p2 <- ggplot(d5, aes(taxa, prop, fill = factor(mig))) +
         strip.text = element_text(size=12),
         panel.grid.minor = element_blank(),
         panel.background = element_blank(),
+        panel.spacing.x = unit(0, "lines"),
         panel.border = element_rect(colour = "black", fill=NA, size=1)) 
 
 TS = fread("input/thermoregulatory_scope.csv",header = T)
@@ -168,13 +170,13 @@ TS5$label<-factor(TS5$label, levels=c("Monotremata", "Didelphimorphia" , "Paucit
                                       "Cetacea"))
 p3 <- ggplot(TS5, aes(label, thermScope)) +
   geom_boxplot(aes(fill = factor(mig)),outlier.color = NA,lwd = 0.6, alpha = 0.25) +
-  geom_jitter(aes(color = factor(mig)), shape=16, position=position_jitter(0.2), size = 2, alpha = 0.6) + 
-  scale_fill_manual(values = c("#0072B2", "#D55E00", "darkgrey")) +
-  scale_color_manual(values = c("#0072B2", "#D55E00", "darkgrey")) +
+  geom_jitter(aes(color = factor(mig)), shape=16, position=position_jitter(0.2), size = 2, alpha = 0.5) + 
+  scale_fill_manual(values = c("darkgrey", "black", "lightgrey")) +
+  scale_color_manual(values = c("darkgrey", "black", "lightgrey")) +
   coord_flip() +
   xlab("") +
   ggtitle("C)") +
-  scale_x_discrete(expand = c(0.02,0.02)) +
+  scale_x_discrete(expand = c(0.05,0.05)) +
   ylab('Thermoregulatory scope') +
   theme(legend.position = 'none',
         plot.margin = margin(0.25, 0.25, 0.25, 0, "cm"),
